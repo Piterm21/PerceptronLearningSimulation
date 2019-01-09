@@ -1,0 +1,113 @@
+﻿<Window x:Class="ZMSIProjekt2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZMSIProjekt2"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Plik">
+                    <MenuItem Header="Zapisz wyniki do pliku" Click="saveResultsToTextFile"/>
+                </MenuItem>
+            </Menu>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65"></RowDefinition>
+                        <RowDefinition Height="65"></RowDefinition>
+                        <RowDefinition Height="85"></RowDefinition>
+                        <RowDefinition Height="65"></RowDefinition>
+                        <RowDefinition Height="65"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Współczynnik uczenia">
+                        <Grid>
+                            <TextBox Name="learningCoefficientTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0,5" TextChanged="learningCoefficientChanged"></TextBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Ilość punktów w zbiorze uczącym">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox Name="amountOfLearningPointsTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="1"></TextBox>
+                            <Button Grid.Row="1" Content="Generuj zbiór uczący" Name="generateLearningSetButton" Click="generateLearningSet"></Button>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Zakres wag" Grid.Row="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <UniformGrid Grid.Column="0" Rows="1" Name="weightsRangeGrid">
+                                <Label Background="LightGray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Min</Label>
+                                <TextBox TextAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                                <Label Background="LightGray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Max</Label>
+                                <TextBox TextAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            </UniformGrid>
+                            <Button Grid.Row="1" Content="Losuj wagi" Click="getRandomWeights"></Button>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="3" Header="Wagi" Name="passedWeightsParameters">
+                        <Grid>
+                            <UniformGrid Rows="1" Name="weightsGrid">
+                                <TextBox TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="weightsValueChanged"></TextBox>
+                                <TextBox TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="weightsValueChanged"></TextBox>
+                                <TextBox TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="weightsValueChanged"></TextBox>
+                            </UniformGrid>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Parametry funkcji separującej" Grid.Row="4" Grid.ColumnSpan="2">
+                        <UniformGrid Rows="1" Name="separatingFunctionParametersGrid">
+                            <Label Background="LightGray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">A =</Label>
+                            <TextBox TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="invalidateSeparationFunction"></TextBox>
+                            <Label Background="LightGray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">B =</Label>
+                            <TextBox TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="invalidateSeparationFunction"></TextBox>
+                        </UniformGrid>
+                    </GroupBox>
+                    <Button Grid.Row="5" Content="Pojedyńczy krok" Click="runSingleLearningStepClick"></Button>
+                    <Button Grid.Row="6" Content="Uczenie automatyczne" Height="21" VerticalAlignment="Top" Click="startAutoLearn"></Button>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="LightGray">Ilośc wykonanych kroków uczenia perceptronu</Label>
+                        <Label Grid.Column="1" Name="amountOfStepsTakenLabel" BorderBrush="Black" BorderThickness="1"></Label>
+                    </Grid>
+                    <GroupBox Grid.Row="1" Header="Zestaw uczący">
+                        <oxy:PlotView Name="learningSetPlot"/>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Wyniki perceptronu">
+                        <oxy:PlotView Name="plot"/>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
